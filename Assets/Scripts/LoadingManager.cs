@@ -58,6 +58,12 @@ public class LoadingManager : MonoBehaviour
 
         targetScene.allowSceneActivation = true;
         yield return new WaitForSeconds(0.1f);
-        SceneManager.UnloadSceneAsync("LoadingScreen");
+
+        Scene loading = SceneManager.GetSceneByName("LoadingScreen");
+
+        if (loading.isLoaded)
+        {
+            SceneManager.UnloadSceneAsync("LoadingScreen");
+        }
     }
 }

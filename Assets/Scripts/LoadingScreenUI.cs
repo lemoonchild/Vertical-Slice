@@ -11,12 +11,11 @@ public class LoadingScreenUI : MonoBehaviour
 
     [Header("Tips")]
     public TextMeshProUGUI tipText;
-    public float tipDisplayTime = 3f;
+    public float tipDisplayTime = 2f;
 
     private string[] tips = {
         "Las trampas suelen estar donde menos lo esperas...",
         "Explora cada rincón, los secretos se esconden en la oscuridad.",
-        "La paciencia es la mejor arma en la dungeon.",
         "Preparando las sombras para ti...",
         "Cada paso puede ser el último, avanza con cautela."
     };
@@ -27,7 +26,8 @@ public class LoadingScreenUI : MonoBehaviour
 
     private void Start()
     {
-        tipText.text = tips[0];
+        currentTipIndex = Random.Range(0, tips.Length);
+        tipText.text = tips[currentTipIndex];
         tipText.alpha = 1f;
     }
 
@@ -42,7 +42,12 @@ public class LoadingScreenUI : MonoBehaviour
         {
             fadingOut = true;
             tipText.DOFade(0f, 0.5f).OnComplete(() => {
-                currentTipIndex = (currentTipIndex + 1) % tips.Length;
+                int newIndex;
+                do {
+                    newIndex = Random.Range(0, tips.Length);
+                } while (newIndex == currentTipIndex);
+                
+                currentTipIndex = newIndex;
                 tipText.text = tips[currentTipIndex];
                 tipText.DOFade(1f, 0.5f).OnComplete(() => {
                     fadingOut = false;
