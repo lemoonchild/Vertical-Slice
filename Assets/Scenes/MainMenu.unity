@@ -2210,9 +2210,9 @@ MonoBehaviour:
   levelNameText: {fileID: 286497471}
   cardRect: {fileID: 703506285}
   levelPreviews:
-  - {fileID: 21300000, guid: aabad2c91b2ac734ca538d70632781cd, type: 3}
-  - {fileID: 21300000, guid: aabad2c91b2ac734ca538d70632781cd, type: 3}
-  - {fileID: 21300000, guid: aabad2c91b2ac734ca538d70632781cd, type: 3}
+  - {fileID: 21300000, guid: 766f22b44db5efa4e9f219aa5108f76f, type: 3}
+  - {fileID: 21300000, guid: 3cb5f1f8d8460aa479ec5878fe3f9722, type: 3}
+  - {fileID: 21300000, guid: 64d0fa616a9feaf4f924a5af6ee6568b, type: 3}
   levelNames:
   - Level 1
   - Level 2

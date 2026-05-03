@@ -60,6 +60,8 @@ public class LevelCarousel : MonoBehaviour
 
     public void OnStartLevelPressed()
     {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
         SceneManager.LoadScene(sceneNames[currentIndex]);
     }
 }

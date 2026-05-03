@@ -10,12 +10,16 @@ public class MainMenuManager : MonoBehaviour
 
     private void Start()
     {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
         carouselPanel.SetActive(false);
         mainMenuPanel.SetActive(true);
     }
 
     public void OnPlayPressed()
     {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
         SceneManager.LoadScene("Level01");
     }
 
