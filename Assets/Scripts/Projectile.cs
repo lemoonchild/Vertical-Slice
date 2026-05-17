@@ -6,26 +6,25 @@ public class Projectile : MonoBehaviour
     public float lifetime = 3f;
     public int damage = 10;
 
+    private Rigidbody rb;
+
+    private void Awake()
+    {
+        rb = GetComponent<Rigidbody>();
+    }
+
     private void Start()
     {
+        rb.linearVelocity = transform.forward * speed;
         Destroy(gameObject, lifetime);
-    }
 
-    private void Update()
-    {
-        transform.Translate(Vector3.forward * speed * Time.deltaTime);
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Enemy"))
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if (player != null)
         {
-            Destroy(gameObject);
+            Collider playerCol = player.GetComponent<Collider>();
+            Collider myCol = GetComponent<Collider>();
+            if (playerCol != null && myCol != null)
+                Physics.IgnoreCollision(myCol, playerCol);
         }
-
-        if (!other.CompareTag("Player") && !other.CompareTag("Enemy") == false)
-            return;
-
-        Destroy(gameObject);
     }
 }
