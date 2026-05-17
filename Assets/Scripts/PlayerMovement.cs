@@ -33,13 +33,12 @@ public class PlayerMovement : MonoBehaviour
         HandleMovement();
         HandleRotation();
     }
-
+    
     private void HandleMovement()
     {
         Vector2 moveInput = inputActions.Player.Move.ReadValue<Vector2>();
         Vector3 move = new Vector3(moveInput.x, 0f, moveInput.y).normalized;
 
-        // Gravedad
         if (cc.isGrounded && velocity.y < 0f)
             velocity.y = -2f;
         velocity.y += gravity * Time.deltaTime;
@@ -47,11 +46,8 @@ public class PlayerMovement : MonoBehaviour
         cc.Move(move * moveSpeed * Time.deltaTime);
         cc.Move(new Vector3(0, velocity.y, 0) * Time.deltaTime);
 
-        // Animaciones
-        float speed = move.magnitude;
-        animator.SetFloat("Speed", moveSpeed * speed, 0.1f, Time.deltaTime);
-        animator.SetFloat("MotionSpeed", 1f);
-        animator.SetBool("Grounded", cc.isGrounded);
+        float speed = moveInput.magnitude;
+        animator.SetFloat("Speed", speed, 0.1f, Time.deltaTime);
     }
 
     private void HandleRotation()
