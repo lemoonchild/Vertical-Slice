@@ -67,5 +67,5 @@
         "*.sln": "*.csproj",
         "*.slnx": "*.csproj"
     },
-    "dotnet.defaultSolution": "Scene-Management.slnx"
+    "dotnet.defaultSolution": "Vertical-Slice.slnx"
 }
