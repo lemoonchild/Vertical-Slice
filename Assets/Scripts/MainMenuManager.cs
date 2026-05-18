@@ -16,8 +16,6 @@ public class MainMenuManager : MonoBehaviour
 
     public void OnPlayPressed()
     {
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
         SceneManager.LoadScene("Level01");
     }
 

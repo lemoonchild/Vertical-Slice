@@ -68,12 +68,9 @@ public class EnemyOgre : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log($"EnemyOgre OnTriggerEnter: {other.gameObject.name} tag: {other.tag}");
-        
         if (other.CompareTag("Projectile"))
         {
             Projectile proj = other.GetComponent<Projectile>();
-            Debug.Log($"proj es null: {proj == null}");
             if (proj != null)
                 TakeDamage(proj.damage);
             Destroy(other.gameObject);

@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 8201846365369576406}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.322, z: 0.609}
+  m_LocalPosition: {x: 0, y: 1.2, z: 0.8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -117,6 +117,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d61adeaa66f477944be615e08c8231c4, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2849933059580710791}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d61adeaa66f477944be615e08c8231c4, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5269075471805435944}
   m_SourcePrefab: {fileID: 100100000, guid: d61adeaa66f477944be615e08c8231c4, type: 3}
 --- !u!1 &346971174994364474 stripped
 GameObject:
@@ -206,6 +209,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerShield
   shieldDuration: 2
   cooldown: 4
+--- !u!114 &5269075471805435944
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 346971174994364474}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5dbd4b9e255b2e94eb4e1762a9281f42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  maxHP: 100
 --- !u!4 &1124599041148490368 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: d61adeaa66f477944be615e08c8231c4, type: 3}

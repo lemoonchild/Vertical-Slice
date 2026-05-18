@@ -31,9 +31,12 @@ public class PlayerShooter : MonoBehaviour
     private void Fire()
     {
         animator.SetTrigger("IsAttacking");
-        GameObject proj = Instantiate(
-            projectilePrefab,
-            firePoint.position,
-            firePoint.rotation);
+        Invoke(nameof(SpawnProjectile), 0.1f);
+        nextFireTime = Time.time + fireRate;
+    }
+
+    private void SpawnProjectile()
+    {
+        Instantiate(projectilePrefab, firePoint.position, firePoint.rotation);
     }
 }
