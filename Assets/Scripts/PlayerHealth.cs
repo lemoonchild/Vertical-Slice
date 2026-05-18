@@ -24,6 +24,12 @@ public class PlayerHealth : MonoBehaviour
         Debug.Log("Jugador murió");
     }
 
+    public void Heal(float amount)
+    {
+        currentHP = Mathf.Min(currentHP + amount, maxHP);
+        Debug.Log($"Jugador curado. HP: {currentHP}");
+    }
+
     public float GetHP() => currentHP;
     public float GetMaxHP() => maxHP;
 }
