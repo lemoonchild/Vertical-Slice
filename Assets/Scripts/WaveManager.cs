@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class WaveManager : MonoBehaviour
 {
@@ -23,9 +24,20 @@ public class WaveManager : MonoBehaviour
     {
         yield return new WaitForSeconds(1f);
 
+        List<int> availablePoints = new List<int>();
+        for (int i = 0; i < spawnPoints.Length; i++)
+            availablePoints.Add(i);
+
         foreach (EnemySpawnData spawnData in waves[waveIndex].enemies)
         {
-            Transform spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)];
+            int randomIndex = Random.Range(0, availablePoints.Count);
+            Transform spawnPoint = spawnPoints[availablePoints[randomIndex]];
+            availablePoints.RemoveAt(randomIndex);
+            
+            if (availablePoints.Count == 0)
+                for (int i = 0; i < spawnPoints.Length; i++)
+                    availablePoints.Add(i);
+
             GameObject enemy = Instantiate(spawnData.prefab, spawnPoint.position, Quaternion.identity);
             enemiesAlive++;
 

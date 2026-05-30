@@ -6,63 +6,127 @@ public class EnemyMage : MonoBehaviour
     [Header("Stats")]
     public float maxHP = 60f;
     public float attackDamage = 8f;
-    public float attackRange = 8f;
     public float attackCooldown = 2f;
-    public float damage = 8f;
 
     [Header("Distancia")]
+    [Tooltip("Distancia ideal que el mago intenta mantener respecto al player.")]
     public float preferredDistance = 6f;
+    [Tooltip("Distancia máxima a la que puede disparar.")]
+    public float attackRange = 8f;
     public float detectionRange = 12f;
+    [Tooltip("Margen para no estar corrigiendo posición todo el tiempo cerca de preferredDistance.")]
+    public float distanceBuffer = 0.5f;
 
     [Header("Proyectil")]
     public GameObject projectilePrefab;
     public Transform firePoint;
+    public float projectileSpeed = 8f;
+
+    [Header("Pathing")]
+    public float repathInterval = 0.15f;
 
     private float currentHP;
     private float attackTimer = 0f;
+    private float repathTimer = 0f;
     private Transform player;
     private NavMeshAgent agent;
 
-    private void Awake()
+    private void Start()
     {
         agent = GetComponent<NavMeshAgent>();
         currentHP = maxHP;
-        player = GameObject.FindGameObjectWithTag("Player").transform;
+        attackTimer = Random.Range(0f, attackCooldown);
+
+        GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+        if (playerObj != null)
+            player = playerObj.transform;
+        else
+            Debug.LogWarning($"{name}: no se encontró ningún objeto con tag 'Player'.");
+
+        agent.avoidancePriority = Random.Range(30, 70);
+
+        agent.enabled = false;
+        Invoke(nameof(EnableAgent), 0.5f);
+    }
+
+    private void EnableAgent()
+    {
+        agent.enabled = true;
     }
 
     private void Update()
     {
-        if (player == null) return;
+        if (player == null || !agent.enabled || !agent.isOnNavMesh) return;
 
         float distance = Vector3.Distance(transform.position, player.position);
 
-        if (distance <= detectionRange)
+        if (distance > detectionRange)
         {
-            // Mirar al jugador
-            Vector3 lookDir = player.position - transform.position;
-            lookDir.y = 0f;
-            transform.rotation = Quaternion.LookRotation(lookDir);
+            HoldPosition();
+            return;
+        }
 
-            if (distance < preferredDistance)
-            {
-                Vector3 retreatDir = transform.position - player.position;
-                agent.SetDestination(transform.position + retreatDir.normalized * 3f);
-            }
-            else if (distance > attackRange)
-            {
-                agent.SetDestination(player.position);
-            }
-            else
-            {
-                agent.SetDestination(transform.position);
-            }
+        if (distance > attackRange)
+        {
+            // Demasiado lejos: acercarse.
+            ChasePlayer();
+        }
+        else if (distance < preferredDistance - distanceBuffer)
+        {
+            // Demasiado cerca: alejarse (kiting).
+            RetreatFromPlayer();
+            TryShoot();
+        }
+        else
+        {
+            // En la zona buena: quedarse quieto y disparar.
+            HoldPosition();
+            TryShoot();
+        }
+    }
 
-            attackTimer -= Time.deltaTime;
-            if (attackTimer <= 0f && distance <= attackRange)
-            {
-                Attack();
-                attackTimer = attackCooldown;
-            }
+    private void ChasePlayer()
+    {
+        if (agent.isStopped) agent.isStopped = false;
+
+        repathTimer -= Time.deltaTime;
+        if (repathTimer <= 0f)
+        {
+            SetDestinationOnMesh(player.position);
+            repathTimer = repathInterval;
+        }
+    }
+
+    private void RetreatFromPlayer()
+    {
+        if (agent.isStopped) agent.isStopped = false;
+
+        Vector3 away = (transform.position - player.position).normalized;
+        Vector3 target = transform.position + away * preferredDistance;
+        SetDestinationOnMesh(target);
+    }
+
+    private void HoldPosition()
+    {
+        // Parar de forma limpia sin pelear con el path.
+        if (!agent.isStopped) agent.isStopped = true;
+        agent.ResetPath();
+    }
+
+    private void SetDestinationOnMesh(Vector3 worldPos)
+    {
+        // Ajusta el destino al punto válido del NavMesh más cercano.
+        if (NavMesh.SamplePosition(worldPos, out NavMeshHit hit, 2f, NavMesh.AllAreas))
+            agent.SetDestination(hit.position);
+    }
+
+    private void TryShoot()
+    {
+        attackTimer -= Time.deltaTime;
+        if (attackTimer <= 0f)
+        {
+            Attack();
+            attackTimer = attackCooldown;
         }
     }
 
@@ -75,14 +139,13 @@ public class EnemyMage : MonoBehaviour
         if (rb != null)
         {
             Vector3 dir = (player.position - firePoint.position).normalized;
-            rb.linearVelocity = dir * 8f;
+            rb.linearVelocity = dir * projectileSpeed;
         }
     }
 
     public void TakeDamage(float amount)
     {
         currentHP -= amount;
-        Debug.Log($"Mago recibió {amount} daño. HP: {currentHP}");
         if (currentHP <= 0f)
             Die();
     }
@@ -94,6 +157,7 @@ public class EnemyMage : MonoBehaviour
             health.NotifyDeath();
         Destroy(gameObject);
     }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Projectile"))

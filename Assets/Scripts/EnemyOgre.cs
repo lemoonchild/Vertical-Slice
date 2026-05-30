@@ -12,30 +12,56 @@ public class EnemyOgre : MonoBehaviour
     [Header("Detección")]
     public float detectionRange = 10f;
 
+    [Header("Pathing")]
+    [Tooltip("Cada cuántos segundos se recalcula el destino. Evita llamar a SetDestination en cada frame.")]
+    public float repathInterval = 0.15f;
+
     private float currentHP;
     private float attackTimer = 0f;
+    private float repathTimer = 0f;
     private Transform player;
+    private PlayerHealth playerHealth;  
     private NavMeshAgent agent;
 
-    private void Awake()
+    private void Start()
     {
         agent = GetComponent<NavMeshAgent>();
         currentHP = maxHP;
-        player = GameObject.FindGameObjectWithTag("Player").transform;
+        attackTimer = Random.Range(0f, attackCooldown);
+
+        GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+        if (playerObj != null)
+        {
+            player = playerObj.transform;
+            playerHealth = playerObj.GetComponent<PlayerHealth>();
+        }
+        else
+        {
+            Debug.LogWarning($"{name}: no se encontró ningún objeto con tag 'Player'.");
+        }
+
+        agent.avoidancePriority = Random.Range(30, 70);
+        agent.isStopped = false;
     }
 
     private void Update()
     {
-        if (player == null) return;
+        if (player == null || !agent.isOnNavMesh) return;
 
         float distance = Vector3.Distance(transform.position, player.position);
 
-        if (distance <= detectionRange)
-            agent.SetDestination(player.position);
+        // Fuera del rango de detección: no perseguir.
+        if (distance > detectionRange)
+        {
+            if (!agent.isStopped) agent.isStopped = true;
+            return;
+        }
 
         if (distance <= attackRange)
         {
-            agent.SetDestination(transform.position); 
+            // En rango de ataque: parar y golpear.
+            if (!agent.isStopped) agent.isStopped = true;
+
             attackTimer -= Time.deltaTime;
             if (attackTimer <= 0f)
             {
@@ -43,11 +69,23 @@ public class EnemyOgre : MonoBehaviour
                 attackTimer = attackCooldown;
             }
         }
+        else
+        {
+            // Perseguir, recalculando el destino con throttle (no cada frame).
+            if (agent.isStopped) agent.isStopped = false;
+
+            repathTimer -= Time.deltaTime;
+            if (repathTimer <= 0f)
+            {
+                if (NavMesh.SamplePosition(player.position, out NavMeshHit hit, 2f, NavMesh.AllAreas))
+                    agent.SetDestination(hit.position);
+                repathTimer = repathInterval;
+            }
+        }
     }
 
     private void Attack()
     {
-        PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
         if (playerHealth != null)
             playerHealth.TakeDamage(attackDamage);
     }
@@ -55,7 +93,6 @@ public class EnemyOgre : MonoBehaviour
     public void TakeDamage(float amount)
     {
         currentHP -= amount;
-        Debug.Log($"Ogro recibió {amount} daño. HP: {currentHP}");
         if (currentHP <= 0f)
             Die();
     }
