@@ -62,7 +62,9 @@ public class EnemyOgre : MonoBehaviour
 
     private void Die()
     {
-        Debug.Log("Ogro muerto");
+        EnemyHealth health = GetComponent<EnemyHealth>();
+        if (health != null)
+            health.NotifyDeath();
         Destroy(gameObject);
     }
 

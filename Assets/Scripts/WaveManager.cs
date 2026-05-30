@@ -9,12 +9,10 @@ public class WaveManager : MonoBehaviour
 
     [Header("Referencias")]
     public GameObject door;
-    public StanceSelectionUI stanceUI;
     public Stance[] stanceOptions;
 
     private int currentWave = 0;
     private int enemiesAlive = 0;
-    private bool allWavesDone = false;
 
     private void Start()
     {
@@ -24,7 +22,6 @@ public class WaveManager : MonoBehaviour
     private IEnumerator StartWave(int waveIndex)
     {
         yield return new WaitForSeconds(1f);
-        Debug.Log($"Wave {waveIndex + 1} comenzando");
 
         foreach (EnemySpawnData spawnData in waves[waveIndex].enemies)
         {
@@ -32,7 +29,6 @@ public class WaveManager : MonoBehaviour
             GameObject enemy = Instantiate(spawnData.prefab, spawnPoint.position, Quaternion.identity);
             enemiesAlive++;
 
-            // Suscribirse a la muerte del enemigo
             EnemyHealth health = enemy.GetComponent<EnemyHealth>();
             if (health != null)
                 health.OnDeath += OnEnemyDied;
@@ -42,7 +38,6 @@ public class WaveManager : MonoBehaviour
     private void OnEnemyDied()
     {
         enemiesAlive--;
-        Debug.Log($"Enemigos vivos: {enemiesAlive}");
 
         if (enemiesAlive <= 0)
         {
@@ -56,7 +51,6 @@ public class WaveManager : MonoBehaviour
 
     private void OnAllWavesDone()
     {
-        Debug.Log("Todas las waves completadas");
         StanceSelectionUI.Instance.Show(stanceOptions, OpenDoor);
     }
 

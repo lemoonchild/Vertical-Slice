@@ -3779,6 +3779,7 @@ GameObject:
   - component: {fileID: 5745460555890558314}
   - component: {fileID: 2031489992140716835}
   - component: {fileID: 7073466182769152638}
+  - component: {fileID: -3736474580222512531}
   m_Layer: 8
   m_Name: EnemyDistance
   m_TagString: Enemy
@@ -3904,6 +3905,18 @@ CapsuleCollider:
   m_Height: 2.7304444
   m_Direction: 1
   m_Center: {x: 0, y: 0.8652222, z: 0}
+--- !u!114 &-3736474580222512531
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8581498759962758126}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 207f40d0232add04384bcd8aa4cf006d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
 --- !u!1 &8615365183948378524
 GameObject:
   m_ObjectHideFlags: 0

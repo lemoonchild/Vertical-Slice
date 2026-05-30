@@ -89,10 +89,11 @@ public class EnemyMage : MonoBehaviour
 
     private void Die()
     {
-        Debug.Log("Mago ha muerto.");
+        EnemyHealth health = GetComponent<EnemyHealth>();
+        if (health != null)
+            health.NotifyDeath();
         Destroy(gameObject);
     }
-
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Projectile"))
