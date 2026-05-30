@@ -25,6 +25,10 @@ public class EnemyMage : MonoBehaviour
     [Header("Pathing")]
     public float repathInterval = 0.15f;
 
+    [Header("UI")]
+    public GameObject healthBarPrefab;
+    private EnemyHealthBar healthBar;
+
     private float currentHP;
     private float attackTimer = 0f;
     private float repathTimer = 0f;
@@ -47,6 +51,14 @@ public class EnemyMage : MonoBehaviour
 
         agent.enabled = false;
         Invoke(nameof(EnableAgent), 0.5f);
+
+        if (healthBarPrefab != null)
+        {
+            GameObject canvas = GameObject.Find("Canvas");
+            GameObject bar = Instantiate(healthBarPrefab, canvas.transform);
+            healthBar = bar.GetComponent<EnemyHealthBar>();
+            healthBar.target = transform;
+        }
     }
 
     private void EnableAgent()
@@ -146,12 +158,16 @@ public class EnemyMage : MonoBehaviour
     public void TakeDamage(float amount)
     {
         currentHP -= amount;
+        if (healthBar != null)
+            healthBar.UpdateBar(currentHP, maxHP);
         if (currentHP <= 0f)
             Die();
     }
 
     private void Die()
     {
+        if (healthBar != null)
+            Destroy(healthBar.gameObject);
         EnemyHealth health = GetComponent<EnemyHealth>();
         if (health != null)
             health.NotifyDeath();

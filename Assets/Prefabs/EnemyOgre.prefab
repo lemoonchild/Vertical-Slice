@@ -2840,6 +2840,8 @@ MonoBehaviour:
   attackRange: 2
   attackCooldown: 1.5
   detectionRange: 15
+  repathInterval: 0.15
+  healthBarPrefab: {fileID: 3216960246276158434, guid: a9891f4de3681ea49bfffb88e6be66d3, type: 3}
 --- !u!136 &3897181256600414054
 CapsuleCollider:
   m_ObjectHideFlags: 0

@@ -3826,13 +3826,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   maxHP: 60
   attackDamage: 8
-  attackRange: 8
   attackCooldown: 2
-  damage: 8
   preferredDistance: 6
+  attackRange: 8
   detectionRange: 12
+  distanceBuffer: 0.5
   projectilePrefab: {fileID: 2014256545630976980, guid: f8cd6f1a534e1484d987eb2a0746eaea, type: 3}
   firePoint: {fileID: 5933628288696941306}
+  projectileSpeed: 8
+  repathInterval: 0.15
+  healthBarPrefab: {fileID: 3216960246276158434, guid: a9891f4de3681ea49bfffb88e6be66d3, type: 3}
 --- !u!195 &5745460555890558314
 NavMeshAgent:
   m_ObjectHideFlags: 0

@@ -23,7 +23,10 @@ public class EnemyBoss : MonoBehaviour
     public float detectionRange = 15f;
 
     [Header("Final")]
-    public GameObject catWall; 
+    public GameObject catWall;
+
+    [Header("UI")]
+    public GameObject healthBarPrefab;
 
     private float currentHP;
     private float currentShield;
@@ -35,6 +38,8 @@ public class EnemyBoss : MonoBehaviour
     private Transform player;
     private NavMeshAgent agent;
     private Animator animator;
+    private EnemyHealthBar healthBar;
+    private EnemyHealthBar shieldBar;
 
     private void Awake()
     {
@@ -43,6 +48,24 @@ public class EnemyBoss : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player").transform;
         currentHP = maxHP;
         currentShield = maxShield;
+
+        if (healthBarPrefab != null)
+        {
+            GameObject canvas = GameObject.Find("Canvas");
+
+            // Barra de vida
+            GameObject bar = Instantiate(healthBarPrefab, canvas.transform);
+            healthBar = bar.GetComponent<EnemyHealthBar>();
+            healthBar.target = transform;
+            healthBar.offset = new Vector3(0, 3.5f, 0);
+
+            // Barra de escudo
+            GameObject shield = Instantiate(healthBarPrefab, canvas.transform);
+            shieldBar = shield.GetComponent<EnemyHealthBar>();
+            shieldBar.target = transform;
+            shieldBar.offset = new Vector3(0, 4.2f, 0);
+            shieldBar.fillBar.color = Color.cyan;
+        }
     }
 
     private void Update()
@@ -81,7 +104,11 @@ public class EnemyBoss : MonoBehaviour
 
         shieldRegenTimer -= Time.deltaTime;
         if (shieldRegenTimer <= 0f)
+        {
             currentShield = Mathf.Min(currentShield + shieldRegenRate * Time.deltaTime, maxShield);
+            if (shieldBar != null)
+                shieldBar.UpdateBar(currentShield, maxShield);
+        }
     }
 
     private void Attack()
@@ -105,13 +132,16 @@ public class EnemyBoss : MonoBehaviour
                 currentHP += currentShield;
                 currentShield = 0f;
             }
+            if (shieldBar != null)
+                shieldBar.UpdateBar(currentShield, maxShield);
         }
         else
         {
             currentHP -= amount;
         }
 
-        Debug.Log($"Boss — Escudo: {currentShield} HP: {currentHP}");
+        if (healthBar != null)
+            healthBar.UpdateBar(currentHP, maxHP);
 
         if (!phase2Triggered && currentHP <= maxHP * 0.5f)
             TriggerPhase2();
@@ -123,8 +153,6 @@ public class EnemyBoss : MonoBehaviour
     private void TriggerPhase2()
     {
         phase2Triggered = true;
-        Debug.Log("Boss fase 2 — spawneando refuerzos");
-
         agent.speed *= 1.5f;
         attackCooldown *= 0.7f;
 
@@ -139,16 +167,14 @@ public class EnemyBoss : MonoBehaviour
     private void Die()
     {
         isDead = true;
-        Debug.Log("Boss muerto");
-        if (catWall != null)
-            catWall.SetActive(false);
-
+        if (healthBar != null) Destroy(healthBar.gameObject);
+        if (shieldBar != null) Destroy(shieldBar.gameObject);
+        if (catWall != null) catWall.SetActive(false);
         Destroy(gameObject, 2f);
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log($"Boss tocado por: {other.gameObject.name} tag: {other.tag}");
         if (other.CompareTag("Projectile"))
         {
             Projectile proj = other.GetComponent<Projectile>();

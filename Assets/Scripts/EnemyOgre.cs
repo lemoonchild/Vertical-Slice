@@ -16,6 +16,10 @@ public class EnemyOgre : MonoBehaviour
     [Tooltip("Cada cuántos segundos se recalcula el destino. Evita llamar a SetDestination en cada frame.")]
     public float repathInterval = 0.15f;
 
+    [Header("UI")]
+    public GameObject healthBarPrefab;
+    private EnemyHealthBar healthBar;
+
     private float currentHP;
     private float attackTimer = 0f;
     private float repathTimer = 0f;
@@ -42,6 +46,14 @@ public class EnemyOgre : MonoBehaviour
 
         agent.avoidancePriority = Random.Range(30, 70);
         agent.isStopped = false;
+
+        if (healthBarPrefab != null)
+        {
+            GameObject canvas = GameObject.Find("Canvas");
+            GameObject bar = Instantiate(healthBarPrefab, canvas.transform);
+            healthBar = bar.GetComponent<EnemyHealthBar>();
+            healthBar.target = transform;
+        }
     }
 
     private void Update()
@@ -93,12 +105,16 @@ public class EnemyOgre : MonoBehaviour
     public void TakeDamage(float amount)
     {
         currentHP -= amount;
+        if (healthBar != null)
+            healthBar.UpdateBar(currentHP, maxHP);
         if (currentHP <= 0f)
             Die();
     }
 
     private void Die()
     {
+        if (healthBar != null)
+            Destroy(healthBar.gameObject);
         EnemyHealth health = GetComponent<EnemyHealth>();
         if (health != null)
             health.NotifyDeath();

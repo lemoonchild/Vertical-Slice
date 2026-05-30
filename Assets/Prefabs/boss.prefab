@@ -425,6 +425,8 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   detectionRange: 15
+  catWall: {fileID: 0}
+  healthBarPrefab: {fileID: 3216960246276158434, guid: a9891f4de3681ea49bfffb88e6be66d3, type: 3}
 --- !u!54 &8164862624023943781
 Rigidbody:
   m_ObjectHideFlags: 0
