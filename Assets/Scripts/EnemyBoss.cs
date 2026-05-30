@@ -22,6 +22,9 @@ public class EnemyBoss : MonoBehaviour
     [Header("Detección")]
     public float detectionRange = 15f;
 
+    [Header("Final")]
+    public GameObject catWall; 
+
     private float currentHP;
     private float currentShield;
     private float attackTimer;
@@ -137,6 +140,9 @@ public class EnemyBoss : MonoBehaviour
     {
         isDead = true;
         Debug.Log("Boss muerto");
+        if (catWall != null)
+            catWall.SetActive(false);
+
         Destroy(gameObject, 2f);
     }
 
