@@ -120,6 +120,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d61adeaa66f477944be615e08c8231c4, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5269075471805435944}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d61adeaa66f477944be615e08c8231c4, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6273296551378339366}
   m_SourcePrefab: {fileID: 100100000, guid: d61adeaa66f477944be615e08c8231c4, type: 3}
 --- !u!1 &346971174994364474 stripped
 GameObject:
@@ -222,6 +225,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   maxHP: 100
+--- !u!114 &6273296551378339366
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 346971174994364474}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96a1a12e218d531499d43c99e61430c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PauseMenu
+  pausePanel: {fileID: 0}
 --- !u!4 &1124599041148490368 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: d61adeaa66f477944be615e08c8231c4, type: 3}

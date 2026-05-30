@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerHealth : MonoBehaviour
 {
@@ -22,6 +23,7 @@ public class PlayerHealth : MonoBehaviour
     private void Die()
     {
         Debug.Log("Jugador murió");
+        SceneManager.LoadScene("GameOver");
     }
 
     public void Heal(float amount)
