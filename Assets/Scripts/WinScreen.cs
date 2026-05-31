@@ -29,7 +29,6 @@ public class WinScreen : MonoBehaviour
         Time.timeScale = 1f;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-        SceneManager.UnloadSceneAsync("WinScreen");
         SceneManager.LoadScene("MainMenu");
     }
 }

@@ -292,8 +292,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 149, y: 197}
-  m_SizeDelta: {x: 200, y: 40}
+  m_AnchoredPosition: {x: 149, y: 196}
+  m_SizeDelta: {x: 300, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &891506630
 MonoBehaviour:
@@ -560,7 +560,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -141}
+  m_AnchoredPosition: {x: -109, y: -206}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1066618232
@@ -583,7 +583,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Where is my cat?
+  m_text: Where is the cat?
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f301a4b1c98a5b24d90ff7bc20a517ef, type: 2}
   m_sharedMaterial: {fileID: -1201121115955118136, guid: f301a4b1c98a5b24d90ff7bc20a517ef, type: 2}
@@ -649,7 +649,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: -94.910645, y: 0, z: -84.724365, w: -86.08319}
+  m_margin: {x: -94.910645, y: 0, z: -291.88025, w: -26.908081}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -943,8 +943,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 149, y: 261}
-  m_SizeDelta: {x: 200, y: 40}
+  m_AnchoredPosition: {x: 149, y: 282}
+  m_SizeDelta: {x: 300, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1609644799
 MonoBehaviour:
