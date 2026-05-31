@@ -161,12 +161,15 @@ public class EnemyBoss : MonoBehaviour
             Instantiate(ogrePrefab, spawnPoints[0].position, Quaternion.identity);
             Instantiate(magePrefab, spawnPoints[1 % spawnPoints.Length].position, Quaternion.identity);
             Instantiate(magePrefab, spawnPoints[2 % spawnPoints.Length].position, Quaternion.identity);
+            Instantiate(magePrefab, spawnPoints[3 % spawnPoints.Length].position, Quaternion.identity);
+            Instantiate(magePrefab, spawnPoints[4 % spawnPoints.Length].position, Quaternion.identity);
         }
     }
 
     private void Die()
     {
         isDead = true;
+        AudioManager.Instance.PlayMusic(AudioManager.Instance.winMusic);
         if (healthBar != null) Destroy(healthBar.gameObject);
         if (shieldBar != null) Destroy(shieldBar.gameObject);
         if (catWall != null) catWall.SetActive(false);

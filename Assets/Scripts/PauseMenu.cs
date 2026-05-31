@@ -24,6 +24,7 @@ public class PauseMenu : MonoBehaviour
     {
         isPaused = !isPaused;
         pausePanel.SetActive(isPaused);
+        AudioManager.Instance.PauseMusic();
         Time.timeScale = isPaused ? 0f : 1f;
         Cursor.visible = isPaused;
         Cursor.lockState = isPaused ? CursorLockMode.None : CursorLockMode.Confined;
@@ -31,6 +32,7 @@ public class PauseMenu : MonoBehaviour
 
     public void OnResumePressed()
     {
+        AudioManager.Instance.ResumeMusic();
         TogglePause();
     }
 
